@@ -1,2 +1,2 @@
 # 2PRO_gr1_projekt
-super 
+Pierwszy commit
