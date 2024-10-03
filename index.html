@@ -6,8 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-
-    <h2>edited</h2>
-    <h3>Trzeci</h3>
+    <h1 id="licznik">1</h1>
+    <button onclick="wieksze()">Zwiększ</button>
+    <script>
+        function wieksze() {
+            let x = document.querySelector("h1").textContent;
+            x++;
+            document.getElementById("licznik").innerHTML = x;
+        }
+    </script>
 </body>
 </html>
