@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1 id="licznik">1</h1>
-    <button onclick="wieksze()">Zwiększ</button>
+    <div class="btn">
+    <button onclick="wieksze()">Zwiększ</button> <button onclick="mniejsze()">Zmniejsz</button>
+    </div>
     <script>
         function wieksze() {
             let x = document.querySelector("h1").textContent;
             x++;
             document.getElementById("licznik").innerHTML = x;
+        }
+        function mniejsze() {
+            let y = document.querySelector("h1").textContent;
+            y--;
+            document.getElementById("licznik").innerHTML = y;
         }
     </script>
 </body>
