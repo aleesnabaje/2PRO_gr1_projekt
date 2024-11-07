@@ -71,7 +71,7 @@ async function getData() {
 async function kraj() {
     const data = await getData();
     let rand = Math.floor(Math.random() * data.length);
-
+    
     if (data[rand].capital) { 
         if (data[rand].capital[0]) { 
             capital = data[rand].capital[0].toLowerCase(); 
