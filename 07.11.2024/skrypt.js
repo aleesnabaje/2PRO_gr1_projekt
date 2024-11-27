@@ -10,6 +10,12 @@ let h1 = document.createElement("h1")
 h1.textContent = "Co ma większą populację?"
 bdy.appendChild(h1)
 
+const p1 = document.createElement("h4")
+const p2 = document.createElement("h4")
+
+bdy.appendChild(p1)
+bdy.appendChild(p2)
+
 let divflex = document.createElement("div")
 divflex.classList.add("flex")
 
@@ -20,6 +26,7 @@ div1.style.width = "400px"
 div1.style.height = "500px"
 div1.style.backgroundColor = "lightgrey"
 div1.style.border = "1px solid black"
+div1.style.borderRadius = "12px"
 divflex.appendChild(div1)
 
 let div2 = document.createElement("div")
@@ -27,6 +34,7 @@ div2.style.width = "400px"
 div2.style.height = "500px"
 div2.style.backgroundColor = "lightgrey"
 div2.style.border = "1px solid black"
+div2.style.borderRadius = "12px"
 divflex.appendChild(div2)
 
 let h2 = document.createElement("h2")
@@ -58,8 +66,6 @@ img2.style.width = "300px";
 img2.style.height = "200px";
 img2.style.padding = "15px"
 
-const p1 = document.createElement("h4")
-const p2 = document.createElement("h4")
 
 const divpkt = document.createElement("div");
 divpkt.style.width = "300px";
@@ -88,76 +94,77 @@ divpkt.appendChild(pktacja)
 
 
 async function losuj1() {
-    const data = await getData()
+    const data = await getData();
+
     let rand = Math.floor(Math.random() * data.length);
-    let rand2 = Math.floor(Math.random() * data.length);
+    let rand2
+    do {
+        rand2 = Math.floor(Math.random() * data.length);
+    } while (rand === rand2)
+
+    div1.innerHTML = "";
+    div2.innerHTML = "";
 
     img1.setAttribute("src", data[rand].flags.png);
-    div1.appendChild(img1);
+    div1.appendChild(img1)
 
-    h3.textContent = data[rand].name.common
+    h3.textContent = data[rand].name.common;
     div1.appendChild(h3)
 
-    btn1.textContent = data[rand].name.common + " ma większą populację"
-    div1.appendChild(btn1)   
+    btn1.textContent = data[rand].name.common + " ma większą populację";
+    div1.appendChild(btn1)
 
     img2.setAttribute("src", data[rand2].flags.png);
-    div2.appendChild(img2);
+    div2.appendChild(img2)
 
-    h2.textContent = data[rand2].name.common
+    h2.textContent = data[rand2].name.common;
     div2.appendChild(h2)
 
-    btn2.textContent = data[rand2].name.common + " ma większą populację"
+    btn2.textContent = data[rand2].name.common + " ma większą populację";
     div2.appendChild(btn2)
 
-    let pop1 = data[rand].population
-    let pop2 = data[rand2].population
-    let name1 = data[rand].name.common
-    let name2 = data[rand2].name.common 
-
-    let tab = [pop1, pop2, name1, name2]
-    return tab
+    return [data[rand].population, data[rand2].population, data[rand].name.common, data[rand2].name.common]
 }
-
-div1.appendChild(p1)
-div2.appendChild(p2)
 
 async function wynik() {
     let pop = await losuj1()
-    console.log(pop);
-    btn1.addEventListener("click", ()=>{
-        if(pop[0]>pop[1]){
-            bdy.style.backgroundColor = "green"
-            punktpop++
-        }
-        else{
-            bdy.style.backgroundColor = "red"
-            punktnie++
-        }
-        popr.textContent = "Poprawne: " + punktpop;
-        niepop.textContent = "Niepoprawne: " + punktnie;
-        p1.textContent = "Populacja "+pop[2]+" to: "+pop[0]
-        p2.textContent = "Populacja "+pop[3]+" to: "+pop[1]
-        wynik()
-    })
 
-    btn2.addEventListener("click", ()=>{
-        if(pop[1]>pop[0]){
-            bdy.style.backgroundColor = "green"
+    btn1.removeEventListener("click", btn1.sprawdzanie1)
+    btn2.removeEventListener("click", btn2.sprawdzanie2)
+
+    btn1.sprawdzanie1 = () => {
+        if (pop[0] > pop[1]) {
+            bdy.style.backgroundColor = "green";
             punktpop++
-        }
-        else{
-            bdy.style.backgroundColor = "red"
+        } else {
+            bdy.style.backgroundColor = "red";
             punktnie++
         }
-        popr.textContent = "Poprawne: " + punktpop;
-        niepop.textContent = "Niepoprawne: " + punktnie;
-        p1.textContent = "Populacja "+pop[2]+" to: "+pop[0]
-        p2.textContent = "Populacja "+pop[3]+" to: "+pop[1]
-        wynik()
-    })
+        punkty(pop)
+    }
+
+    btn2.sprawdzanie2 = () => {
+        if (pop[1] > pop[0]) {
+            bdy.style.backgroundColor = "green";
+            punktpop++
+        } else {
+            bdy.style.backgroundColor = "red";
+            punktnie++
+        }
+        punkty(pop)
+    }
+
+    btn1.addEventListener("click", btn1.sprawdzanie1);
+    btn2.addEventListener("click", btn2.sprawdzanie2);
+}
+
+function punkty(pop) {
+    popr.textContent = "Poprawne: " + punktpop;
+    niepop.textContent = "Niepoprawne: " + punktnie;
+
+    p1.textContent = "Populacja " + pop[2] + " to: " + pop[0];
+    p2.textContent = "Populacja " + pop[3] + " to: " + pop[1];
+
+    wynik()
 }
 wynik()
-
-
-
